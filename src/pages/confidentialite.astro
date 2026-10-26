@@ -1,0 +1,21 @@
+---
+import PageTexte from '../components/PageTexte.astro';
+import { SITE } from '../data/site';
+---
+<PageTexte title="Confidentialité | Pizza Di Nello, Saint-Brice-sous-Forêt" description="Politique de confidentialité du site de Pizza Di Nello à Saint-Brice-sous-Forêt : aucun cookie, aucun traceur, aucune donnée collectée par le site." h1="Politique de confidentialité">
+  <h2>Ce que le site collecte</h2>
+  <p>Rien. Ce site n'a pas de formulaire, ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience ni aucun traceur publicitaire. C'est pour cela qu'il n'affiche pas de bandeau cookies.</p>
+  <p>Le ticket de la carte (les cases à cocher) fonctionne uniquement dans votre navigateur : rien n'est envoyé ni enregistré.</p>
+
+  <h2>Carte Google Maps</h2>
+  <p>Le plan d'accès n'est chargé que si vous cliquez sur « Afficher la carte Google ». Google peut alors déposer ses propres cookies, selon sa <a href="https://policies.google.com/privacy?hl=fr" target="_blank" rel="noopener">politique de confidentialité</a>.</p>
+
+  <h2>Liens externes</h2>
+  <p>Les liens vers Instagram, TikTok, Uber Eats ou Google Maps mènent vers des services tiers, qui ont leurs propres règles de confidentialité.</p>
+
+  <h2>Hébergement</h2>
+  <p>Le site est hébergé par Vercel Inc. (États-Unis), qui peut enregistrer des journaux techniques (adresse IP, date de connexion) pour la sécurité du service.</p>
+
+  <h2>Vos droits</h2>
+  <p>Pour toute question sur vos données, contactez {SITE.nom} au <a href={`tel:${SITE.telLien}`}>{SITE.telAffiche}</a> ou par e-mail : <span class="ac">[À CONFIRMER]</span>. Vous pouvez aussi saisir la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
+</PageTexte>

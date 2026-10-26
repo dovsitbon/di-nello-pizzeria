@@ -1,0 +1,26 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../data/site';
+---
+<footer class="sombre bg-four text-creme">
+  <div class="wrap py-12 md:py-16 grid gap-10 md:grid-cols-[auto_1fr_auto] md:items-start">
+    <div class="justify-self-start"><Logo clair /></div>
+    <address class="not-italic leading-relaxed max-w-md">
+      <strong class="font-bold">{SITE.nom}</strong><br />
+      {SITE.adresse.rue}, {SITE.adresse.lieu}<br />
+      {SITE.adresse.cp} {SITE.adresse.ville}<br />
+      <a href={`tel:${SITE.telLien}`} class="inline-flex min-h-[44px] items-center font-bold text-kraft underline underline-offset-4">{SITE.telAffiche}</a>
+      <span class="block mt-3 text-[.95rem] text-[#d8cfbd]">Pizzeria napolitaine pour Saint-Brice-sous-Forêt, {SITE.voisines.slice(0, -1).join(', ')} et {SITE.voisines.at(-1)}. Parking gratuit.</span>
+    </address>
+    <ul class="grid gap-1 text-[.98rem]">
+      <li><a class="lien" href={SITE.instagram} target="_blank" rel="noopener">Instagram {SITE.pseudo}</a></li>
+      <li><a class="lien" href={SITE.tiktok} target="_blank" rel="noopener">TikTok {SITE.pseudo}</a></li>
+      <li><a class="lien" href="/mentions-legales/">Mentions légales</a></li>
+      <li><a class="lien" href="/confidentialite/">Confidentialité</a></li>
+    </ul>
+  </div>
+</footer>
+<style>
+  .lien { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgb(217 191 146 / .5); }
+  .lien:hover { color: var(--color-kraft); }
+</style>

@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+---
+<Base title="Page introuvable | Pizza Di Nello" description="Cette page n'existe pas. Retrouvez la carte, les horaires et le numéro de Pizza Di Nello à Saint-Brice-sous-Forêt." noindex>
+  <section class="wrap py-20 md:py-28 max-w-3xl">
+    <p class="font-titre text-tomate text-[6.5rem] md:text-[9rem] leading-none" aria-hidden="true">404</p>
+    <h1 class="mt-4 text-[2rem] md:text-[2.8rem]">Cette page n'est pas sur la carte</h1>
+    <p class="mt-5 text-[1.1rem]">L'adresse a peut-être changé. La carte, les horaires et le téléphone sont sur la page d'accueil.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/#carte" class="btn btn-tomate">Voir la carte</a>
+      <a href={`tel:${SITE.telLien}`} class="btn btn-ligne">Appeler le {SITE.telAffiche}</a>
+    </div>
+  </section>
+</Base>

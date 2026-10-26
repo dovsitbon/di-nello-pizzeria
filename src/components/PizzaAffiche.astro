@@ -1,0 +1,32 @@
+---
+// Pizza géométrique façon affiche italienne des années 60. Purement décorative.
+const mozza = [
+  [148, 138, 30], [258, 128, 24], [118, 238, 27], [214, 212, 35], [292, 252, 22], [184, 302, 26], [302, 178, 16], [236, 296, 14], [96, 178, 13],
+];
+const basilic = [
+  [196, 150, -30], [270, 205, 40], [150, 275, 110], [250, 270, -70], [110, 205, 15], [205, 250, 160],
+];
+const taches = [0, 31, 58, 97, 133, 160, 196, 222, 255, 289, 318, 341];
+---
+<svg viewBox="0 0 400 400" class="pizza block w-full h-auto" aria-hidden="true" focusable="false">
+  <circle cx="200" cy="200" r="190" fill="#b9773a" />
+  <circle cx="200" cy="200" r="185" fill="#e2a85c" />
+  {taches.map((a, i) => (
+    <ellipse cx={200 + Math.cos((a * Math.PI) / 180) * 172} cy={200 + Math.sin((a * Math.PI) / 180) * 172} rx={i % 3 ? 6 : 9} ry={i % 2 ? 4 : 5} transform={`rotate(${a + 90} ${200 + Math.cos((a * Math.PI) / 180) * 172} ${200 + Math.sin((a * Math.PI) / 180) * 172})`} fill="#5e3216" opacity=".55" />
+  ))}
+  <circle cx="200" cy="200" r="153" fill="#c3241c" />
+  <circle cx="200" cy="200" r="153" fill="none" stroke="#9a1b14" stroke-width="3" />
+  {mozza.map(([x, y, r]) => <circle cx={x} cy={y} r={r} fill="#fffbf2" />)}
+  {basilic.map(([x, y, a]) => (
+    <g transform={`translate(${x} ${y}) rotate(${a})`}>
+      <path d="M0 -24 C16 -13 16 13 0 24 C-16 13 -16 -13 0 -24Z" fill="#2f6b33" />
+      <path d="M0 -20 L0 20" stroke="#225026" stroke-width="2" />
+    </g>
+  ))}
+  <g stroke="#1b1714" stroke-opacity=".22" stroke-width="3" stroke-linecap="round">
+    <line x1="200" y1="14" x2="200" y2="386" />
+    <line x1="14" y1="200" x2="386" y2="200" />
+    <line x1="68" y1="68" x2="332" y2="332" />
+    <line x1="332" y1="68" x2="68" y2="332" />
+  </g>
+</svg>

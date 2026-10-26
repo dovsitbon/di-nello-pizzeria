@@ -1,0 +1,44 @@
+---
+import { HORAIRES, fmtHeure } from '../data/site';
+const plage = (s?: { ouvre: string; ferme: string }) => (s ? `${fmtHeure(s.ouvre)}–${fmtHeure(s.ferme)}` : '');
+---
+<table class="horaires w-full text-left">
+  <caption class="sr-only">Horaires d'ouverture, service du midi et du soir</caption>
+  <thead>
+    <tr><th scope="col">Jour</th><th scope="col">Midi</th><th scope="col">Soir</th></tr>
+  </thead>
+  <tbody>
+    {HORAIRES.map((j) => {
+      const midi = j.services.find((s) => s.ouvre < '15:00');
+      const soir = j.services.find((s) => s.ouvre >= '15:00');
+      return (
+        <>
+        <tr data-jour={j.jour} class:list={[{ suite: j.aConfirmer }]}>
+          <th scope="row">{j.nom}</th>
+          {j.services.length === 0 ? (
+            <td colspan="2" class="ferme">Fermé</td>
+          ) : (
+            <>
+              <td>{midi ? <span class="h">{plage(midi)}</span> : <span class="text-four-2">fermé</span>}</td>
+              <td><span class="h">{plage(soir)}</span></td>
+            </>
+          )}
+        </tr>
+        {j.aConfirmer && (
+          <tr data-jour={j.jour} class="note-jour"><td colspan="3"><span class="ac">[À CONFIRMER : {j.nom.toLowerCase()} soir, {j.aConfirmer}]</span></td></tr>
+        )}
+        </>
+      );
+    })}
+  </tbody>
+</table>
+<style>
+  .horaires { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .horaires thead th { font-size: .85rem; font-weight: 700; color: var(--color-four-2); padding: 0 .5rem .5rem; }
+  .horaires tbody th, .horaires td { padding: .7rem .5rem; border-top: 1px dashed rgb(27 23 20 / .3); vertical-align: top; }
+  .horaires tbody th { font-weight: 700; }
+  .horaires .h { white-space: nowrap; }
+  .horaires .note-jour td { border-top: 0; padding-top: 0; }
+  .horaires .ferme { color: var(--color-tomate-fonce); font-weight: 700; }
+  .horaires tr[aria-current='date'] { background: var(--color-mozza); box-shadow: inset 4px 0 0 var(--color-tomate); }
+</style>

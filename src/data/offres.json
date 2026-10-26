@@ -1,0 +1,19 @@
+{
+  "_note": "Offres du moment. Mettre actif à false pour masquer une offre. aConfirmer : texte du marqueur [À CONFIRMER] (null pour le retirer).",
+  "offres": [
+    {
+      "actif": true,
+      "titre": "3 plats au choix",
+      "prix": "30 €",
+      "detail": null,
+      "aConfirmer": "offre vue sur Instagram, toujours valable ? conditions ?"
+    },
+    {
+      "actif": true,
+      "titre": "Paniers anti-gaspi",
+      "prix": "Too Good To Go",
+      "detail": "Le restaurant est présent sur l'application : réservez un panier du jour et passez le récupérer.",
+      "aConfirmer": null
+    }
+  ]
+}

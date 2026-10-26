@@ -1,0 +1,73 @@
+{
+  "_note": "Carte du restaurant. Seuls les plats cités par les clients sont listés. Reprendre la carte complète et les prix depuis le dossier Google Drive du restaurant. prix : null = affiche [À CONFIRMER]. description : null = rien d'affiché.",
+  "rubriques": [
+    {
+      "id": "rouges",
+      "titre": "Pizzas rouges",
+      "precision": "base tomate",
+      "plats": [],
+      "vide": "Liste des pizzas base tomate à reprendre de la carte du restaurant"
+    },
+    {
+      "id": "blanches",
+      "titre": "Pizzas blanches",
+      "precision": "sans tomate",
+      "plats": [
+        {
+          "nom": "Pollo crema",
+          "description": null,
+          "prix": null
+        }
+      ]
+    },
+    {
+      "id": "speciales",
+      "titre": "Spéciales",
+      "precision": null,
+      "plats": [
+        {
+          "nom": "Mortadella à la truffe",
+          "description": null,
+          "prix": null,
+          "coupDeCoeur": true
+        },
+        {
+          "nom": "Burrata",
+          "description": null,
+          "prix": null
+        }
+      ]
+    },
+    {
+      "id": "pates",
+      "titre": "Pâtes fraîches",
+      "precision": null,
+      "plats": [
+        {
+          "nom": "Pâtes poulet pesto",
+          "description": null,
+          "prix": null
+        }
+      ]
+    },
+    {
+      "id": "desserts",
+      "titre": "Desserts",
+      "precision": null,
+      "plats": [
+        {
+          "nom": "Tiramisu",
+          "description": null,
+          "prix": null
+        }
+      ]
+    },
+    {
+      "id": "boissons",
+      "titre": "Boissons",
+      "precision": null,
+      "plats": [],
+      "vide": "Liste des boissons à reprendre de la carte du restaurant"
+    }
+  ]
+}

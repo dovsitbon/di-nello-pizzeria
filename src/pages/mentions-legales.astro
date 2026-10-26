@@ -1,0 +1,29 @@
+---
+import PageTexte from '../components/PageTexte.astro';
+import { SITE } from '../data/site';
+---
+<PageTexte title="Mentions légales | Pizza Di Nello, Saint-Brice-sous-Forêt" description="Mentions légales du site de Pizza Di Nello, pizzeria napolitaine au 8 allée des Glycines, 95350 Saint-Brice-sous-Forêt : éditeur, hébergeur, propriété intellectuelle." h1="Mentions légales">
+  <h2>Éditeur du site</h2>
+  <p>{SITE.nom} ({SITE.nomLong})<br />
+  Raison sociale : {SITE.raisonSociale} <span class="ac">[À CONFIRMER]</span><br />
+  Forme juridique et capital : <span class="ac">[À CONFIRMER]</span><br />
+  SIRET : <span class="ac">[À CONFIRMER]</span><br />
+  RCS : <span class="ac">[À CONFIRMER]</span><br />
+  N° TVA intracommunautaire : <span class="ac">[À CONFIRMER]</span><br />
+  Adresse : {SITE.adresse.rue}, {SITE.adresse.lieu}, {SITE.adresse.cp} {SITE.adresse.ville}<br />
+  Téléphone : <a href={`tel:${SITE.telLien}`}>{SITE.telAffiche}</a><br />
+  E-mail : <span class="ac">[À CONFIRMER]</span></p>
+  <p>Directeur de la publication : <span class="ac">[À CONFIRMER]</span></p>
+
+  <h2>Hébergeur</h2>
+  <p>Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis. <a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a></p>
+
+  <h2>Propriété intellectuelle</h2>
+  <p>Les textes, photos et éléments graphiques de ce site appartiennent à {SITE.nom}, sauf mention contraire. Toute reproduction sans autorisation est interdite.</p>
+
+  <h2>Carte et prix</h2>
+  <p>La carte, les prix et les offres affichés sur ce site sont donnés à titre indicatif et peuvent changer. Seuls les prix affichés au restaurant font foi.</p>
+
+  <h2>Données personnelles</h2>
+  <p>Voir la <a href="/confidentialite/">politique de confidentialité</a>.</p>
+</PageTexte>

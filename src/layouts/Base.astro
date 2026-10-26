@@ -1,0 +1,145 @@
+---
+import '../styles/global.css';
+import Entete from '../components/Entete.astro';
+import Pied from '../components/Pied.astro';
+import BarreMobile from '../components/BarreMobile.astro';
+import { SITE, HORAIRES } from '../data/site';
+import carte from '../data/carte.json';
+
+interface Props {
+  title: string;
+  description: string;
+  jsonld?: object[];
+  noindex?: boolean;
+}
+const { title, description, jsonld = [], noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = new URL('/og.png', Astro.site);
+const accueil = new URL('/', Astro.site).href;
+
+const JOURS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+// Regroupe les jours qui ont exactement le même créneau.
+const creneaux = new Map<string, string[]>();
+for (const j of HORAIRES) for (const s of j.services) {
+  const k = `${s.ouvre}-${s.ferme}`;
+  creneaux.set(k, [...(creneaux.get(k) ?? []), JOURS_EN[j.jour]]);
+}
+
+const restaurant = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  '@id': `${accueil}#restaurant`,
+  name: SITE.nom,
+  alternateName: [SITE.nomLong, 'Di Nello'],
+  description:
+    'Pizzeria 100 % napolitaine au centre commercial des Vergers à Saint-Brice-sous-Forêt : pizzas, pâtes fraîches, tiramisu. Sur place, en terrasse, à emporter ou en livraison.',
+  url: accueil,
+  telephone: SITE.telLien,
+  image: og.href,
+  servesCuisine: ['Pizza', 'Italian'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.adresse.rue,
+    postalCode: SITE.adresse.cp,
+    addressLocality: SITE.adresse.ville,
+    addressRegion: "Val-d'Oise",
+    addressCountry: SITE.adresse.pays,
+  },
+  containedInPlace: { '@type': 'ShoppingCenter', name: `${SITE.adresse.lieu}, ${SITE.adresse.ville}` },
+  areaServed: [SITE.adresse.ville, ...SITE.voisines].map((n) => ({ '@type': 'City', name: n })),
+  openingHoursSpecification: [...creneaux].map(([k, jours]) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: jours.length === 1 ? jours[0] : jours,
+    opens: k.split('-')[0],
+    closes: k.split('-')[1],
+  })),
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: SITE.noteNum, bestRating: 5, ratingCount: SITE.nbAvis },
+  hasMenu: {
+    '@type': 'Menu',
+    name: 'La carte de Di Nello',
+    url: `${accueil}#carte`,
+    hasMenuSection: carte.rubriques
+      .filter((r) => r.plats.length)
+      .map((r) => ({ '@type': 'MenuSection', name: r.titre, hasMenuItem: r.plats.map((p) => ({ '@type': 'MenuItem', name: p.nom })) })),
+  },
+  amenityFeature: [
+    { '@type': 'LocationFeatureSpecification', name: 'Terrasse', value: true },
+    { '@type': 'LocationFeatureSpecification', name: 'Parking gratuit', value: true },
+    { '@type': 'LocationFeatureSpecification', name: 'Adapté aux enfants', value: true },
+  ],
+  paymentAccepted: 'Carte bancaire, sans contact',
+  sameAs: [SITE.instagram, SITE.tiktok],
+};
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#d9bf92" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Pizza Di Nello, Saint-Brice-sous-Forêt" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Pizza Di Nello, pizzeria napolitaine au centre commercial des Vergers à Saint-Brice-sous-Forêt" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(restaurant)} />
+    {jsonld.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+  </head>
+  <body class="min-h-dvh flex flex-col pb-[76px] md:pb-0">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-mozza focus:px-4 focus:py-3 focus:font-bold">Aller au contenu</a>
+    <Entete />
+    <main id="contenu" class="flex-1">
+      <slot />
+    </main>
+    <Pied />
+    <BarreMobile />
+    <script is:inline define:vars={{ horaires: HORAIRES }}>
+      (function () {
+        try {
+          var parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+          var get = function (t) { return (parts.find(function (p) { return p.type === t; }) || {}).value; };
+          var j = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[get('weekday')];
+          var min = parseInt(get('hour'), 10) * 60 + parseInt(get('minute'), 10);
+          var toMin = function (h) { var a = h.split(':'); return +a[0] * 60 + +a[1]; };
+          var fmt = function (h) { return h.replace(':', 'h'); };
+          var jour = function (n) { return horaires.find(function (h) { return h.jour === n; }); };
+          var auj = jour(j);
+          var enCours = auj.services.find(function (s) { return min >= toMin(s.ouvre) && min < toMin(s.ferme); });
+          var texte;
+          if (enCours) {
+            texte = 'Ouvert, ' + (toMin(enCours.ouvre) < 15 * 60 ? 'service du midi' : 'service du soir') + ' jusqu’à ' + fmt(enCours.ferme);
+          } else {
+            var plusTard = auj.services.find(function (s) { return min < toMin(s.ouvre); });
+            if (plusTard) {
+              texte = 'Fermé, réouvre ' + (toMin(plusTard.ouvre) >= 17 * 60 ? 'ce soir' : 'aujourd’hui') + ' à ' + fmt(plusTard.ouvre);
+            } else {
+              for (var d = 1; d <= 7; d++) {
+                var x = jour((j + d) % 7);
+                if (x.services.length) { texte = 'Fermé, réouvre ' + (d === 1 ? 'demain' : x.nom.toLowerCase()) + ' à ' + fmt(x.services[0].ouvre); break; }
+              }
+            }
+          }
+          document.querySelectorAll('[data-statut]').forEach(function (el) {
+            el.dataset.ouvert = enCours ? 'oui' : 'non';
+            var t = el.querySelector('[data-statut-texte]');
+            if (t && texte) t.textContent = texte;
+          });
+          document.querySelectorAll('[data-jour="' + j + '"]').forEach(function (el) { el.setAttribute('aria-current', 'date'); });
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>

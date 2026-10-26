@@ -1,0 +1,13 @@
+---
+// Tampon imprimé façon carton à pizza. `clair` : version pour fond noir.
+interface Props { clair?: boolean }
+const { clair = false } = Astro.props;
+---
+<span class:list={['tampon logo', { clair }]} translate="no">
+  <span class="block text-[1.45rem] md:text-[1.7rem] tracking-[.01em]">Pizza Di Nello</span>
+  <span class="block text-[.78rem] md:text-[.85rem] tracking-[.06em] mt-1 text-center">100 % napoletana</span>
+</span>
+<style>
+  .logo { padding: .45rem .8rem .5rem; }
+  .clair { color: var(--color-kraft); }
+</style>

@@ -1,0 +1,15 @@
+---
+// Pastille « Ouvert / Fermé », calculée par le script de Base.astro (fuseau Europe/Paris, services midi et soir).
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+<p class:list={['statut', cls]} data-statut>
+  <span class="point" aria-hidden="true"></span>
+  <span data-statut-texte>Mardi au samedi midi et soir, dimanche soir, fermé le lundi</span>
+</p>
+<style>
+  .statut { display: inline-flex; align-items: center; gap: .6rem; font-weight: 600; font-size: .98rem; line-height: 1.3; }
+  .point { width: .8rem; height: .8rem; border-radius: 50%; background: var(--color-four-2); flex: none; box-shadow: 0 0 0 3px rgb(27 23 20 / .1); }
+  [data-ouvert='oui'] .point { background: var(--color-basilic); box-shadow: 0 0 0 3px rgb(47 107 51 / .22); }
+  [data-ouvert='non'] .point { background: var(--color-tomate); box-shadow: 0 0 0 3px rgb(195 36 28 / .2); }
+</style>
